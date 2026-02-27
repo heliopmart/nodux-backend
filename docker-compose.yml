@@ -6,9 +6,14 @@ services:
     ports:
       - "8080:8080"
     environment:
-      - SPRING_PROFILES_ACTIVE=dev
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/nodux
-      - SPRING_REDIS_HOST=redis
+      - SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE}
+      - SPRING_DATASOURCE_URL=${SPRING_DATASOURCE_URL}
+      - SPRING_DATASOURCE_USERNAME=${POSTGRES_USER}
+      - SPRING_DATASOURCE_PASSWORD=${POSTGRES_PASSWORD}
+      - SPRING_REDIS_HOST=${SPRING_REDIS_HOST}
+      - JWT_SECRET=${JWT_SECRET}
+      - ASAAS_API_KEY=${ASAAS_API_KEY}
+      - ZAPI_TOKEN=${ZAPI_TOKEN}
     depends_on:
       db:
         condition: service_healthy
@@ -18,15 +23,16 @@ services:
   db:
     image: postgres:16-alpine
     environment:
-      - POSTGRES_DB=nodux
-      - POSTGRES_USER=admin
-      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
     ports:
       - "5432:5432"
     volumes:
-      - ./src/main/resources/db/petshop-app.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./src/main/resources/db/sql.sql:/docker-entrypoint-initdb.d/init.sql
+      - pgdata:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U admin -d nodux"]
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -35,3 +41,6 @@ services:
     image: redis:7-alpine
     ports:
       - "6379:6379"
+
+volumes:
+  pgdata:

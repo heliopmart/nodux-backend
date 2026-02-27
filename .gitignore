@@ -1,0 +1,36 @@
+# === SECURITY ===
+.env
+.env.local
+.env.sample
+# Mas lembre-se de manter o .env.example versionado!
+
+# === JAVA / MAVEN ===
+target/
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# === IDE - VS CODE ===
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.code-workspace
+
+# === IDE - INTELLIJ ===
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# === OS ===
+.DS_Store
+Thumbs.db
+
+# === LOGS ===
+logs/
+*.log
