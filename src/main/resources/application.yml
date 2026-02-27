@@ -1,0 +1,43 @@
+spring:
+  application:
+    name: nodux-backend
+  
+  # Configuração da Base de Dados (PostgreSQL)
+  datasource:
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+
+  # Configuração do Redis
+  data:
+    redis:
+      host: ${SPRING_REDIS_HOST:localhost}
+      port: ${SPRING_REDIS_PORT:6379}
+
+  # Configuração do JPA/Hibernate
+  jpa:
+    hibernate:
+      ddl-auto: validate 
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+# Configurações de Segurança (JWT)
+security:
+  jwt:
+    secret: ${JWT_SECRET}
+    expiration: 86400000 # 24 horas
+
+# Integrações de Terceiros
+integrations:
+  asaas:
+    api-key: ${ASAAS_API_KEY}
+  zapi:
+    token: ${ZAPI_TOKEN}
+
+server:
+  port: 8080
+  error:
+    include-message: always # Para suportar o nosso ErrorDTO
